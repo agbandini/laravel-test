@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
+    
+    public function album(){
+        //return $this->belongsTo(Album::class, 'album_id', 'id');
+        return $this->belongsTo(Album::class);
+    }     
+    
     public function getPathAttribute(){
         $url = $this->img_path;
         if(stristr($this->img_path, 'http') === FALSE){
@@ -27,9 +33,6 @@ class Photo extends Model
         $this->attributes['name'] = strtoupper($value);
     }
     
-    public function album(){
-        //return $this->belongsTo(Album::class, 'album_id', 'id');
-        return $this->belongsTo(Album::class);
-    }    
+   
     
 }

@@ -19,6 +19,7 @@ class PhotoPolicy
      */
     public function view(User $user, Photo $photo)
     {
+        dd($photo->album->user_id);
         return $user->id == $photo->album->user_id;
     }
 
@@ -30,7 +31,7 @@ class PhotoPolicy
      */
     public function create(User $user)
     {
-        return $user->id == $photo->album->user_id;
+        return true;
     }
 
     /**
@@ -40,8 +41,16 @@ class PhotoPolicy
      * @param  \App\Photo  $photo
      * @return mixed
      */
+
+    public function edit(User $user, Photo $photo)
+    {
+        dd($photo->album->user_id);
+        return $user->id == $photo->album->user_id;
+    }
+
     public function update(User $user, Photo $photo)
     {
+        dd($photo->album->user_id);
         return $user->id == $photo->album->user_id;
     }
 

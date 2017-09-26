@@ -6,10 +6,19 @@ use Illuminate\Http\Request;
 use App\Models\Photo;
 use App\Models\Album;
 use Illuminate\Support\Facades\Storage;
+use Auth;
+
 
 
 class PhotosController extends Controller
 {
+    
+    
+    function __construct() {
+        $this->middleware('auth');
+        $this->authorizeResource(Photo::class);
+    }
+    
     
     protected $rules = [
         'album_id' => 'required|integer|exists:albums,id',
@@ -65,9 +74,10 @@ class PhotosController extends Controller
         $photo->description = $request->input('description');
         $photo->album_id = $request->input('album_id');
        
-        
+        //dd($photo);
          $this->processFile($photo);
          $photo->save();
+         
          return redirect(route('album.getimages',$photo->album_id));
     }
 
@@ -91,7 +101,9 @@ class PhotosController extends Controller
     public function edit($photo)
     {
         $photo = Photo::with('album')->find($photo);
-       
+        
+        //$this->authorize('edit',$photo);
+        
         $albums = $this->getAlbums();
         $album = $photo->album; 
         return view('images.editimage', compact('album','albums','photo'));
@@ -157,7 +169,9 @@ class PhotosController extends Controller
             return false;
         }
         //$fileName = $file->store(env('IMG_DIR'));
-        $fileName = $photo->id .'.'.$file->extension();
+        //$fileName = $photo->id .'.'.$file->extension();
+        $imgName = preg_replace("@\W@",'_', $photo->name);
+        $fileName = $imgName. '.' . $file->extension();
         $file->storeAs(env('IMG_DIR').'/'.$photo->album_id,$fileName);
         $photo->img_path = env('IMG_DIR').'/'.$photo->album_id.'/'.$fileName;      
         return true;
@@ -173,7 +187,7 @@ class PhotosController extends Controller
     }
 
     public function getAlbums(){
-        return Album::orderBy('album_name')->get();
+        return Album::orderBy('album_name')->where('user_id', Auth::user()->id)->get();
     }
     
 }

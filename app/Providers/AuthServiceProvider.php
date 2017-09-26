@@ -18,8 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Album::class, AlbumPolicy::class, 
-        Photo::class, PhotoPolicy::class 
+        Album::class => AlbumPolicy::class, 
+        Photo::class => PhotoPolicy::class
     ];
 
     /**

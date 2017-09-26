@@ -48,6 +48,7 @@ class AlbumPolicy
 
     public function edit(User $user, Album $album)
     {
+        //dd($user->id, $album->user_id);
         return $user->id === $album->user_id;
     }
     
