@@ -10,7 +10,8 @@ use DB;
 use App\Http\Requests\AlbumRequest;
 use App\Http\Requests\AlbumUpdateRequest;
 use Auth;
-use Illuminate\Support\Facades\Gate;
+//use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Access\Gate;
 use App\Policies\AlbumPolicy;
 
 class AlbumsController extends Controller
