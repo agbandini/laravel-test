@@ -165,7 +165,7 @@ class AlbumsController extends Controller
        }*/
        
        //dd(Auth::user()->id);
-       $this->authorize($album);
+       $this->authorize('edit',$album);
        
        return view('albums/edit')->with('album',$album);
     }
